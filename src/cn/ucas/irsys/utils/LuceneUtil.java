@@ -22,7 +22,7 @@ public class LuceneUtil {
 	
 	static {
 		try {
-			directory = FSDirectory.open(new File("./indexDir"));
+			directory = FSDirectory.open(new File(DBCPUtil.getGProperties().getProperty("finalIndexDir")));
 			analyzer = new IKAnalyzer();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -60,7 +60,6 @@ public class LuceneUtil {
 				}
 			});
 		}
-
 		return indexWriter;
 	}
 

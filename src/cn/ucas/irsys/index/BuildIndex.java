@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -46,7 +47,8 @@ public class BuildIndex {
 			count++;
 			List<Article> lists = new ArrayList<Article>();
 			try {
-				lists = qr.query("select id,title,date,url,content from article limit ?,?", new BeanListHandler<Article>(Article.class),begin,max);
+				String sql = "select id,title,date,url,content from article limit ?,?";
+				lists = qr.query(sql, new BeanListHandler<Article>(Article.class),begin,max);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -82,9 +84,10 @@ public class BuildIndex {
 		IndexWriter indexWriter;
 		File tempFile;
 		try {
-			Directory resultIndex = FSDirectory.open(new File("./indexDir"));
+			Properties gprop = DBCPUtil.getGProperties();
+			Directory resultIndex = FSDirectory.open(new File(gprop.getProperty("finalIndexDir")));
 			indexWriter = new IndexWriter(resultIndex, LuceneUtil.getAnalyzer(), MaxFieldLength.LIMITED);
-			tempFile = new File("./tempIndex");
+			tempFile = new File(gprop.getProperty("tempIndexDir"));
 			for(File temp : tempFile.listFiles()) {
 				if(temp.isDirectory() && temp.exists()) {
 					Directory d = FSDirectory.open(temp);
