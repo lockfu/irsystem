@@ -7,5 +7,5 @@
   <li>4. 配置项目环境 搭建一个javaweb项目  </li>
   <li>5. 将索引文件添加到项目中</li>
   <li>6. 在irsystem/config/globalproperties.properties 配置索引文件路径 <span>索引文件路径使用绝对路径</span></li>
- 
+  <li>7. 运行项目 在网页中输入 http://localhost:8080/irsystem/  进行搜索</li>
 </ul>
